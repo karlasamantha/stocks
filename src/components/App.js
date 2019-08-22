@@ -1,35 +1,41 @@
-import React, { Component } from 'react';
-import { fetchStockPricePerSymbol } from '../services/FetchData';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-class App extends Component {
-  state = {
-    symbol: '',
-    price: null
-  }
-  
-  handleSbumit = (event) => {
+const App = () => {
+  const [symbol, setSymbol] = useState()
+  const [price, setPrice] = useState({ price: {} })
+
+  const handleSubmit = event => {
     event.preventDefault();
-    
-    fetchStockPricePerSymbol(this.refs.symbol.value);
+    alert(symbol)
   }
-  
-  render() {
-    const { symbol } = this.state
-    return (
-      <div>
-        <h1>Stocks info</h1>
-        <form onSubmit={(event) => this.handleSubmit(event)}>
-          <label>Lookup stocks info: </label>
-          <input 
-            type="text"
-            ref="symbol" 
-            value={symbol}
-            placeholder="e.g.: AAP" />
-          <button>Search</button>
-        </form>
-      </div>
-    );
-  }
+
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const response = await axios(
+        `https://api.iextrading.com/1.0/deep/official-price?symbols=${symbol}`,
+      );
+
+      setPrice(response.data);
+    };
+
+    fetchPrice();
+  }, {price})
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>Stock price lookup: </label>
+        <input
+          type="text"
+          value={symbol}
+          placeholder="e.g.: AAP"
+          onChange={(event) => setSymbol(event.target.value)}
+        />
+        <button>Search</button>
+      </form>
+    </div>
+  )
 }
 
 export default App;
