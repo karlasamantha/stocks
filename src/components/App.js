@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import fetchCompanyInfo from '../services/FetchData';
+import { Container } from './styles'
 
 const App = () => {
   const [symbol, setSymbol] = useState()
@@ -7,23 +9,27 @@ const App = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    alert(symbol)
+    console.log('this is the symbol: ', symbol)
+    console.log('this is the company info: ', price)
   }
+
+  // TODO: fix onChange handler
 
   useEffect(() => {
     const fetchPrice = async () => {
-      const response = await axios(
-        `https://api.iextrading.com/1.0/deep/official-price?symbols=${symbol}`,
+      const response = await axios.get(
+        fetchCompanyInfo(symbol),
       );
 
       setPrice(response.data);
     };
 
     fetchPrice();
-  }, {price})
+  }, [symbol])
 
   return (
-    <div>
+    <Container>
+      <h1>Stocks info</h1>
       <form onSubmit={handleSubmit}>
         <label>Stock price lookup: </label>
         <input
@@ -34,7 +40,7 @@ const App = () => {
         />
         <button>Search</button>
       </form>
-    </div>
+    </Container>
   )
 }
 
