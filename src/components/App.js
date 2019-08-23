@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import fetchCompanyInfo from '../services/FetchData'
+import { fetchCompanyInfo, fetchStockInfo } from '../services/FetchData'
 import { Container } from './styles'
 
 const App = () => {
@@ -14,19 +14,20 @@ const App = () => {
     event.preventDefault()
     setSymbol(query)
   }
-  /**
-   * Fix onChange handler: is not letting update the input
-   */
 
   useEffect(() => {
     const fetchInfo = async () => {
-      const response = await axios.get(
+      const companyResponse = await axios.get(
         fetchCompanyInfo(symbol),
       );
 
-      setPrice(response.data.latestPrice)
-      setCompanyName(response.data.companyName)
-      setCompanyDescription(response.data.description)
+      const stockResponse = await axios.get(
+        fetchStockInfo(symbol),
+      );
+
+      setPrice(stockResponse.data.latestPrice)
+      setCompanyName(companyResponse.data.companyName)
+      setCompanyDescription(companyResponse.data.description)
     };
 
     fetchInfo();
@@ -39,14 +40,13 @@ const App = () => {
         <label>Stock price lookup: </label>
         <input
           type="text"
-          value={symbol}
+          value={query}
           placeholder="e.g.: AAP"
           onChange={(event) => setQuery(event.target.value)}
         />
         <button>Search</button>
       </form>
       <div>
-        Symbol: <span>{symbol}</span><br />
         Price: <span>{price}</span><br />
         Company name: <span>{companyName}</span><br />
         Company description: <span>{companyDescription}</span>
