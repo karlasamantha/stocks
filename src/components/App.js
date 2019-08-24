@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { fetchCompanyInfo, fetchStockInfo } from '../services/FetchData'
-import { Container, ResultsContainer, InfoContainer } from './styles'
+import { Container, ResultsContainer, InfoContainer, Label, Input, Button } from './styles'
 
 const App = () => {
   const [query, setQuery] = useState('')
   const [symbol, setSymbol] = useState('')
   const [price, setPrice] = useState()
-  const [companyDescription, setCompanyDescription] = useState()
-  const [companyName, setCompanyName] = useState()
+  const [description, setDescription] = useState()
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -17,12 +16,10 @@ const App = () => {
         const stockResponse = await axios.get(fetchStockInfo(symbol))
 
         setPrice(stockResponse.data.latestPrice)
-        setCompanyName(companyResponse.data.companyName)
-        setCompanyDescription(companyResponse.data.description)
+        setDescription(companyResponse.data.description)
       } catch (error) {
         setPrice('')
-        setCompanyName('')
-        setCompanyDescription('')
+        setDescription('')
       }
     };
 
@@ -37,28 +34,28 @@ const App = () => {
           setSymbol(query)
           event.preventDefault()
         }}>
-        <label>Stock price lookup: </label>
-        <input
-          type="text"
+        <Input
+          id='symbolInput'
+          type='text'
           value={query}
-          placeholder="e.g.: AAP"
+          placeholder='e.g.: AAP'
           onChange={(event) => setQuery(event.target.value)}
         />
-        <button>Search</button>
+        <Button>Search</Button>
       </form>
 
       <ResultsContainer>
         <InfoContainer>
-          <label>Price: </label>
-          <span>{price}</span>
+          <Label htmlFor='symbol'>Symbol:</Label><br />
+          <span id='symbol'>{symbol}</span>
         </InfoContainer>
         <InfoContainer>
-          <label>Company name: </label>
-          <span>{companyName}</span>
+          <Label htmlFor='price'>Price: </Label><br />
+          <span id='price'>{price}</span>
         </InfoContainer>
         <InfoContainer>
-          <label>Company description: </label>
-          <span>{companyDescription}</span>
+          <Label htmlFor='description'>Description: </Label><br />
+          <span id='description'>{description}</span>
         </InfoContainer>
       </ResultsContainer>
     </Container>

@@ -1,5 +1,5 @@
 function fetchStockInfo(symbol) {
-  return `https://cloud.iexapis.com/stable/stock/${symbol}/quote?token=pk_79b63c903d624b64b646c21ff2fa7f2a`;
+  return `https://cloud.iexapis.com/stable/stock/${symbol}/quote?token=pk_79b63c903d624b64b646c21ff2fa7f2a`
 }
 
 function fetchCompanyInfo(symbol) {
