@@ -15,7 +15,6 @@ It'll automatically open a new tab on your selected browser on `http://localhost
   * create-react-app
   * Styled components
   * Netlify
-  * TDS
 
 ## General notes
 

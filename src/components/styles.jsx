@@ -6,11 +6,17 @@ const Container = styled.div`
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  justify-items: center;
+  justify-items: left;
+  padding: 0 10px;
 `;
 
 const ResultsContainer = styled.div`
-  align-items: center;
+  align-items: left;
+  margin: 10px 0;
 `;
 
-export { Container };
+const InfoContainer = styled.div`
+  margin: 10px 0;
+`;
+
+export { Container, ResultsContainer, InfoContainer };
