@@ -6,7 +6,7 @@ Coding assignment for Lendesk
 To run this app in a local environment, use the following steps:
 
 ```js
-  cd stocks-lendesk-master
+  cd stocks-master
   npm install
   npm run start
 ```
